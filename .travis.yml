@@ -2,11 +2,8 @@ language: rust
 sudo: false
 
 rust:
-  - stable
-  - beta
+  # We require nightly for conservative_impl_trait, unboxed_closures and fn_traits
   - nightly
-  # Minimum supported version (bitflags fails on 1.1):
-  - 1.2.0
 
 # necessary for `travis-cargo coveralls --no-sudo`
 addons:
