@@ -201,7 +201,6 @@
 #![feature(conservative_impl_trait, unboxed_closures, fn_traits)]
 #![warn(missing_docs,
         trivial_casts,
-        trivial_numeric_casts,
         unused_import_braces,
         unused_qualifications)]
 
