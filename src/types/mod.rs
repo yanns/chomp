@@ -164,8 +164,9 @@ pub trait Input: Sized {
     fn consume(&mut self, n: usize) -> Option<Self::Buffer>;
 
     /// Runs the closure `F` on the tokens *in order* until it returns false, all tokens up to that
-    /// token will be returned as a buffer and discarded from the current input. MUST never run the
-    /// closure more than once on the exact same token.
+    /// token will be returned as a buffer and discarded from the current input.
+    ///
+    /// MUST never run the closure more than once on the exact same token.
     ///
     /// If the end of the input is reached, the whole input is returned.
     ///
@@ -186,6 +187,21 @@ pub trait Input: Sized {
     /// implementation supports it.
     #[inline]
     fn consume_remaining(&mut self) -> Self::Buffer;
+
+    /// Runs the closure `F` on the tokens *in order* until it returns false, all tokens up to that
+    /// token will be discarded from the current input.
+    ///
+    /// MUST never run the closure more than once on the exact same token.
+    ///
+    /// If the end of the input is reached, the whole input is discarded.
+    ///
+    /// Note: Default implementation uses `consume_while` and makes the assumption that it will
+    /// optimize away the resulting `Self::Buffer`.
+    #[inline]
+    fn skip_while<F>(&mut self, f: F)
+      where F: FnMut(Self::Token) -> bool {
+        self.consume_while(f);
+    }
 
     /// Marks the current position to be able to backtrack to it using `restore`.
     #[inline]
